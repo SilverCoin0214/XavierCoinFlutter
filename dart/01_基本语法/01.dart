@@ -17,6 +17,16 @@ main(List<String> args) {
   // const 必须赋值, 并且是在编译期间就有一个确定的值
   // final 可以通过计算/函数获取一个值(运行期间获得的一个值)
 
+  final p1 = Person('sce');
 
+  const p2 = Person('zaj');
+  const p3 = Person('zaj');
 
+  print(identical(p2, p3));
+}
+
+class Person {
+  final String name;
+
+  const Person(this.name);
 }
