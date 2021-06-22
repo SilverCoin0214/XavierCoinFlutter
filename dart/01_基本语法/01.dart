@@ -12,7 +12,7 @@ main(List<String> args) {
 
   // 1. 明确的声明
 
-  // 2. 类型推倒(var / final / const)
+  // 2. 类型推倒(var / final / const / dynamic)
 
   // const 必须赋值, 并且是在编译期间就有一个确定的值
   // final 可以通过计算/函数获取一个值(运行期间获得的一个值)

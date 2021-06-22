@@ -9,6 +9,7 @@ void sayHello1(String name) {
   print(name);
 }
 
+// 可选参数: 只有可选参数有默认值, 必选参数不能有默认值
 // 位置可选参数
 
 void sayHello2(String name, [int age = 10, double height = 1.88]) {
