@@ -1,6 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 main(List<String> args) {
   runApp(MyApp());
@@ -9,8 +8,13 @@ main(List<String> args) {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: SceHomePage());
+    return GetMaterialApp(home: SceHomePage());
   }
+}
+
+class Controller extends GetxController {
+  var count = 0.obs;
+  increment() => count++;
 }
 
 class SceHomePage extends StatelessWidget {
@@ -18,88 +22,39 @@ class SceHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 使用Get.put()实例化类, 使其对当下所有的子路由使用
+    final Controller c = Get.put(Controller());
+
     return Scaffold(
+      // 使用Obx(()=>{}) 来更新状态
       appBar: AppBar(
-        title: Text('基础widget - 监听滚动'),
+        title: Obx(() => Text('学习Getx - Clicks: ${c.count}')),
       ),
-      body: SceHomeContent(),
+      // 使用Get.to()来跳转下一个页面
+      body: Center(
+        child: ElevatedButton(
+          child: Text('Go to other'),
+          onPressed: () => Get.to(Other()),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.arrow_upward),
-        onPressed: () => {},
+        child: Icon(Icons.add),
+        onPressed: c.increment,
       ),
     );
   }
 }
 
-class SceHomeContent extends StatefulWidget {
-  const SceHomeContent({Key? key}) : super(key: key);
-
-  @override
-  _SceHomeContentState createState() => _SceHomeContentState();
-}
-
-class _SceHomeContentState extends State<SceHomeContent> {
-  @override
-  Widget build(BuildContext context) {
-    return LinstenerDemo();
-  }
-}
-
-class LinstenerDemo extends StatefulWidget {
-  const LinstenerDemo({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  _LinstenerDemoState createState() => _LinstenerDemoState();
-}
-
-class _LinstenerDemoState extends State<LinstenerDemo> {
-  ScrollController controller = ScrollController(initialScrollOffset: 300);
-
-  @override
-  void initState() {
-    super.initState();
-
-    controller.addListener(() {
-      print('监听到滚动..${controller.offset}');
-    });
-  }
+class Other extends StatelessWidget {
+  // 可以让Get找到一个正在被其他页面使用的Controller, 并将它返回
+  final Controller c = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    return NotificationListener(
-      onNotification: (ScrollNotification notification) {
-        // print('监听到滚动');
-
-        if (notification is ScrollStartNotification) {
-          print('开始滚动');
-        } else if (notification is ScrollUpdateNotification) {
-          print('正在滚动');
-        } else if (notification is ScrollEndNotification) {
-          print('结束滚动');
-        }
-        return true;
-      },
-      child: ListView.builder(
-        /**
-         * 两种监听方式:
-         *  controller
-         *    - 可以设置默认值offset
-         *    - 监听滚动, 也可以监听滚动的位置
-         *  NotificationListener
-         *    - 开始滚动和结束滚动
-         */
-        controller: controller,
-        itemCount: 100,
-        itemBuilder: (BuildContext ctx, int index) {
-          return ListTile(
-            leading: Icon(Icons.people),
-            trailing: Icon(Icons.delete),
-            title: Text('联系人${index + 1}'),
-            subtitle: Text('联系人电话号码: 1238945y'),
-          );
-        },
+    // 访问更新后的计数变量
+    return Scaffold(
+      body: Center(
+        child: Text('${c.count}'),
       ),
     );
   }
