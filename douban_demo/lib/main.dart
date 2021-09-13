@@ -1,11 +1,12 @@
 /*
  * @Author: spike
  * @Date: 2021-09-06 22:54:34
- * @LastEditTime: 2021-09-06 23:16:48
+ * @LastEditTime: 2021-09-10 22:15:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /XavierCoinFlutter/douban_demo/lib/main.dart
  */
+import 'package:douban_demo/widgets/star_rating.dart';
 import 'package:flutter/material.dart';
 
 main(List<String> args) {
@@ -47,42 +48,7 @@ class _SceHomeContentState extends State<SceHomePageBody> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SceStartRating(),
-    );
-  }
-}
-
-class SceStartRating extends StatefulWidget {
-  const SceStartRating({Key? key}) : super(key: key);
-
-  @override
-  _SceStartRatingState createState() => _SceStartRatingState();
-}
-
-class _SceStartRatingState extends State<SceStartRating> {
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.star_border, color: Colors.red, size: 30),
-            Icon(Icons.star_border, color: Colors.red, size: 30),
-            Icon(Icons.star_border, color: Colors.red, size: 30),
-            Icon(Icons.star_border, color: Colors.red, size: 30),
-            Icon(Icons.star_border, color: Colors.red, size: 30),
-          ],
-        ),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.star, color: Colors.red, size: 30),
-            Icon(Icons.star, color: Colors.red, size: 30),
-            Icon(Icons.star, color: Colors.red, size: 30),
-          ],
-        ),
-      ],
+      child: SceStartRating(rating: 8),
     );
   }
 }
