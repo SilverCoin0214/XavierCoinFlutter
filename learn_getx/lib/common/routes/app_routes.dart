@@ -3,7 +3,7 @@
 /*
  * @Author: sce
  * @Date: 2021-09-13 21:44:00
- * @LastEditTime: 2021-09-14 00:59:21
+ * @LastEditTime: 2021-09-14 17:27:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /XavierCoinFlutter/learn_getx/lib/common/routes/app_routes.dart
@@ -20,4 +20,6 @@ abstract class AppRoutes {
   static const NotFound = '/notfound';
   static const Login = '/login';
   static const My = '/my';
+  static const Obx = '/obs';
+  static const Getx = '/getx';
 }

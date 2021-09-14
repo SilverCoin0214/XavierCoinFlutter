@@ -3,7 +3,7 @@
 /*
  * @Author: sce
  * @Date: 2021-09-13 21:40:08
- * @LastEditTime: 2021-09-14 01:06:07
+ * @LastEditTime: 2021-09-14 17:28:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /XavierCoinFlutter/learn_getx/lib/pages/home/index.dart
@@ -100,6 +100,19 @@ class HomeView extends StatelessWidget {
             title: Text('导航 - 中间件 - 认证Auth'),
             subtitle: Text('Get.toNamed(AppRoutes.My)'),
             onTap: () => Get.toNamed(AppRoutes.My),
+          ),
+          Divider(),
+
+          ListTile(
+            title: Text('Obx()使用'),
+            subtitle: Text('Get.toNamed(AppRoutes.Obx)'),
+            onTap: () => Get.toNamed(AppRoutes.Obx),
+          ),
+
+          ListTile(
+            title: Text('GetX()使用'),
+            subtitle: Text('Get.toNamed(AppRoutes.Getx)'),
+            onTap: () => Get.toNamed(AppRoutes.Getx),
           ),
         ],
       ),
