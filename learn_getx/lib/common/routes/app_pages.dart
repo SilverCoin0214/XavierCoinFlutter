@@ -3,7 +3,7 @@
 /*
  * @Author: sce
  * @Date: 2021-09-13 21:45:21
- * @LastEditTime: 2021-09-14 17:28:10
+ * @LastEditTime: 2021-09-15 12:15:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /XavierCoinFlutter/learn_getx/lib/common/app_pages.dart
@@ -11,14 +11,17 @@
 
 import 'package:get/get.dart';
 import 'package:learn_getx/common/middleware/router_auth.dart';
+import 'package:learn_getx/pages/dependency_put_find/index.dart';
 import 'package:learn_getx/pages/home/index.dart';
 import 'package:learn_getx/pages/list/index.dart';
 import 'package:learn_getx/pages/list_detail/index.dart';
 import 'package:learn_getx/pages/login/index.dart';
 import 'package:learn_getx/pages/my/index.dart';
 import 'package:learn_getx/pages/notfound/index.dart';
+import 'package:learn_getx/pages/state_getBuilder/index.dart';
 import 'package:learn_getx/pages/state_getx/index.dart';
 import 'package:learn_getx/pages/state_obx/index.dart';
+import 'package:learn_getx/pages/state_workers/index.dart';
 
 part 'app_routes.dart';
 
@@ -41,6 +44,20 @@ class AppPages {
 
     GetPage(name: AppRoutes.Obx, page: () => StateObxView()),
     GetPage(name: AppRoutes.Getx, page: () => StateGetxView()),
+    GetPage(name: AppRoutes.Getbuilder, page: () => StateGetBuilderView()),
+    GetPage(name: AppRoutes.Worker, page: () => StateWorderView()),
+
+
+    // 控制器依赖注入
+    GetPage(
+      name: AppRoutes.Dependency,
+      page: () => StateDependencyPutFindView(),
+      children: [
+        GetPage(
+              name: AppRoutes.DependencyPutFind,
+              page: () => StateDependencyPutFindView()),
+      ]
+    ),
 
     GetPage(name: AppRoutes.Home, page: () => HomeView(), children: [
       GetPage(name: AppRoutes.List, page: () => ListView(), children: [

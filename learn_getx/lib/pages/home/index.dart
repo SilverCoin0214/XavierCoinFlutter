@@ -3,7 +3,7 @@
 /*
  * @Author: sce
  * @Date: 2021-09-13 21:40:08
- * @LastEditTime: 2021-09-14 17:28:39
+ * @LastEditTime: 2021-09-15 12:16:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /XavierCoinFlutter/learn_getx/lib/pages/home/index.dart
@@ -114,6 +114,28 @@ class HomeView extends StatelessWidget {
             subtitle: Text('Get.toNamed(AppRoutes.Getx)'),
             onTap: () => Get.toNamed(AppRoutes.Getx),
           ),
+
+          ListTile(
+            title: Text('Getbuilder()使用'),
+            subtitle: Text('Get.toNamed(AppRoutes.Getbuilder)'),
+            onTap: () => Get.toNamed(AppRoutes.Getbuilder),
+          ),
+
+          ListTile(
+            title: Text('Worker()使用'),
+            subtitle: Text('Get.toNamed(AppRoutes.Worker)'),
+            onTap: () => Get.toNamed(AppRoutes.Worker),
+          ),
+          Divider(),
+
+          // 依赖注入
+          ListTile(
+            title: Text("Dependency-Put-Find"),
+            subtitle: Text('Get.toNamed(AppRoutes.DependencyPutFind)'),
+            onTap: () =>
+                Get.toNamed(AppRoutes.Dependency + AppRoutes.DependencyPutFind),
+          ),
+
         ],
       ),
     );
