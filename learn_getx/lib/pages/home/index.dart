@@ -3,7 +3,7 @@
 /*
  * @Author: sce
  * @Date: 2021-09-13 21:40:08
- * @LastEditTime: 2021-09-15 12:16:42
+ * @LastEditTime: 2021-09-16 10:25:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /XavierCoinFlutter/learn_getx/lib/pages/home/index.dart
@@ -135,6 +135,15 @@ class HomeView extends StatelessWidget {
             onTap: () =>
                 Get.toNamed(AppRoutes.Dependency + AppRoutes.DependencyPutFind),
           ),
+
+
+          // 嵌套导航
+          ListTile(
+            title: Text("嵌套导航"),
+            subtitle: Text('Get.toNamed(AppRoutes.NestedNavigator)'),
+            onTap: () => Get.toNamed(AppRoutes.NestedNavigator, arguments: {"id": 333}),
+          ),
+          Divider(),
 
         ],
       ),

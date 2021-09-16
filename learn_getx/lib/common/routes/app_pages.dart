@@ -3,7 +3,7 @@
 /*
  * @Author: sce
  * @Date: 2021-09-13 21:45:21
- * @LastEditTime: 2021-09-15 12:15:54
+ * @LastEditTime: 2021-09-16 10:16:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /XavierCoinFlutter/learn_getx/lib/common/app_pages.dart
@@ -17,6 +17,8 @@ import 'package:learn_getx/pages/list/index.dart';
 import 'package:learn_getx/pages/list_detail/index.dart';
 import 'package:learn_getx/pages/login/index.dart';
 import 'package:learn_getx/pages/my/index.dart';
+import 'package:learn_getx/pages/nested_navigation/binding.dart';
+import 'package:learn_getx/pages/nested_navigation/index.dart';
 import 'package:learn_getx/pages/notfound/index.dart';
 import 'package:learn_getx/pages/state_getBuilder/index.dart';
 import 'package:learn_getx/pages/state_getx/index.dart';
@@ -59,8 +61,15 @@ class AppPages {
       ]
     ),
 
+    // 嵌套导航
+    GetPage(
+      name: AppRoutes.NestedNavigator,
+      page: () => NestedNavView(),
+      binding: NestedBinding(),
+    ),
+
     GetPage(name: AppRoutes.Home, page: () => HomeView(), children: [
-      GetPage(name: AppRoutes.List, page: () => ListView(), children: [
+      GetPage(name: AppRoutes.List, page: () => ListIndexView(), children: [
         GetPage(
           name: AppRoutes.Detail,
           page: () => DetailView(),

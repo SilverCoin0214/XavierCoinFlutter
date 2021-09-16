@@ -3,7 +3,7 @@
 /*
  * @Author: sce
  * @Date: 2021-09-13 21:44:00
- * @LastEditTime: 2021-09-15 12:13:15
+ * @LastEditTime: 2021-09-16 10:12:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /XavierCoinFlutter/learn_getx/lib/common/routes/app_routes.dart
@@ -28,4 +28,6 @@ abstract class AppRoutes {
   static const Dependency = '/dependency';
   static const DependencyPutFind = '/dependency_put_find';
   static const DependencyLazyPut = '/dependency_lazy_put';
+
+  static const NestedNavigator = '/nested_navigator';
 }

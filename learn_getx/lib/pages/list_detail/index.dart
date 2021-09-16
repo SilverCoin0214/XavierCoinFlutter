@@ -3,7 +3,7 @@
 /*
  * @Author: sce
  * @Date: 2021-09-13 22:00:45
- * @LastEditTime: 2021-09-14 00:37:39
+ * @LastEditTime: 2021-09-16 10:28:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /XavierCoinFlutter/learn_getx/lib/pages/list_detail/index.dart
@@ -27,7 +27,7 @@ class DetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final details = Get.arguments as Map;
+    final details = Get.arguments as Map;
     final parameters = Get.parameters;
 
     return Scaffold(
@@ -41,7 +41,7 @@ class DetailView extends StatelessWidget {
             subtitle: Text('Get.back()'),
             onTap: () => Get.back(),
           ),
-          // _bulidBackListTileRow(details),
+          _bulidBackListTileRow(details),
           _bulidBackListTileRow(parameters),
         ],
       ),
