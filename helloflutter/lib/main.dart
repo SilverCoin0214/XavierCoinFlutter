@@ -1,133 +1,91 @@
 /*
  * @Author: your name
  * @Date: 2021-07-06 22:47:40
- * @LastEditTime: 2021-09-27 19:45:52
+ * @LastEditTime: 2022-03-17 10:59:29
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /XavierCoinFlutter/helloflutter/lib/main.dart
  */
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'StringParser.dart';
 
-void main() => runApp(new MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       title: 'Flutter Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: new MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, this.title}) : super(key: key);
-
-  final title;
-
+  MyHomePage({Key? key}) : super(key: key);
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late InlineSpan span;
+
+  final String content =
+      """一点不错，”狐狸说。“对我来说，你还只是一个小男孩，就像其他千万个小男孩一样。我不需要你。你也同样用不着我。对你来说，我也不过是一只狐狸，和其他千万只狐狸一样。但是，如果你驯服了我，我们就互相不可缺少了。对我来说，你就是世界上唯一的了；我对你来说，也是世界上唯一的了。""";
+
+  late StringParser parser;
+  int endIndex = 0;
+  bool flag = true;
+
   @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
-      ),
-      body: Container(
-        width: 400,
-        height: 200,
-        child: new Swiper(
-          itemBuilder: (BuildContext context, int index) {
-            print('查看当前的$index');
-            return Container(
-              color: Colors.yellow,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: _content(index),
-              ),
-            );
-          },
-          itemCount: 3,
-          // viewportFraction: 0.8,
-          // scale: 0.9,
-          pagination: SwiperPagination(
-              builder: DotSwiperPaginationBuilder(
-            color: Colors.grey,
-            activeColor: Colors.red,
-          )),
-          itemWidth: 50.0,
-          itemHeight: 50,
-        ),
-      ),
-    );
+  void initState() {
+    super.initState();
+    parser = StringParser(content: content, endIndex: endIndex);
+    span = parser.parser();
   }
 
-  _content(index) {
-    List res = [];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("滚动高亮文本"),
+          actions: [
+            ElevatedButton(
+                onPressed: () {
+                  this.flag = true;
+                  _starPlay(flag);
+                  print('开始');
+                },
+                child: Text("开始")),
+            ElevatedButton(
+                onPressed: () {
+                  this.flag = false;
+                  // _starPlay(flag);
+                  print('暂停');
+                },
+                child: Text("暂停"))
+          ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Text.rich(span),
+        ));
+  }
 
-    res.add([
-      Container(
-        width: 100,
-        height: 100,
-        color: Colors.red,
-      ),
-      Container(
-        width: 100,
-        height: 100,
-        color: Colors.green,
-      ),
-      Container(
-        width: 100,
-        height: 100,
-        color: Colors.blue,
-      ),
-    ]);
+  _starPlay(flag) {
+    if (this.endIndex == content.length + 1 || !flag) {
+      return;
+    }
 
-    res.add([
-      Container(
-        width: 100,
-        height: 100,
-        color: Colors.orange,
-      ),
-      Container(
-        width: 100,
-        height: 100,
-        color: Colors.pink,
-      ),
-      Container(
-        width: 100,
-        height: 100,
-        color: Colors.blue,
-      ),
-    ]);
+    parser = StringParser(content: content, endIndex: this.endIndex++);
+    span = parser.parser();
 
-    res.add([
-      Container(
-        width: 100,
-        height: 100,
-        color: Colors.purple,
-      ),
-      Container(
-        width: 100,
-        height: 100,
-        color: Colors.green,
-      ),
-      Container(
-        width: 100,
-        height: 100,
-        color: Colors.grey,
-      ),
-    ]);
-
-    return res[index];
-
+    setState(() {});
+    Future.delayed(Duration(milliseconds: 100)).then((value) {
+      _starPlay(this.flag);
+    });
   }
 }

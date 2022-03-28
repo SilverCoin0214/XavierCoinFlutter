@@ -1,318 +1,146 @@
 /*
  * @Author: your name
- * @Date: 2021-09-10 15:21:09
- * @LastEditTime: 2021-09-10 16:14:34
+ * @Date: 2021-09-09 15:44:07
+ * @LastEditTime: 2021-11-16 15:18:35
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /XavierCoinFlutter/learn_flutter/lib/video.dart
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: /learn_flutter/lib/main.dart
  */
-
-import 'dart:async';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
 
-void main() => runApp(const VideoPlayerApp());
+main(List<String> args) {
+  runApp(MyApp());
+}
 
-class VideoPlayerApp extends StatelessWidget {
-  const VideoPlayerApp({Key? key}) : super(key: key);
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Video Player Demo',
-      home: MediaPage(),
-    );
+    return MaterialApp(home: SceHomePage());
   }
 }
 
-class MediaPage extends StatefulWidget {
-  const MediaPage({Key? key}) : super(key: key);
-
-  @override
-  _MediaPageState createState() => _MediaPageState();
-}
-
-class _MediaPageState extends State<MediaPage> {
-  // bool get _isFullScreen =>
-  //     MediaQuery.of(context).orientation == Orientation.landscape;
+class SceHomePage extends StatelessWidget {
+  const SceHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Media'),
+        title: Text('基础widget - 下拉列表'),
       ),
-      body: Container(
-        child: MyVideo(
-          url:
-              'http://vfx.mtime.cn/Video/2019/03/09/mp4/190309153658147087.mp4',
-          title: '示例视频',
-          // 这个vw是MediaQueryData.fromWindow(window).size.width屏幕宽度
-          width: MediaQueryData.fromWindow(window).size.width,
-          height: MediaQueryData.fromWindow(window).size.width/16*9, // 竖屏时容器为16：9
-        ),
-      ),
+      body: SceHomeContent(),
     );
   }
 }
 
-class MyVideo extends StatefulWidget {
-  MyVideo({
-    required this.url,
-    required this.width, // 播放器尺寸（大于等于视频播放区域）
-    required this.height,
-    this.title = '测试啦啦啦',
-  });
-
-  final String url;
-  final String title;
-  // 视频尺寸比例
-  final double width;
-  final double height;
+class SceHomeContent extends StatefulWidget {
+  const SceHomeContent({Key? key}) : super(key: key);
 
   @override
-  _MyVideoState createState() => _MyVideoState();
+  _SceHomeContentState createState() => _SceHomeContentState();
 }
 
-class _MyVideoState extends State<MyVideo> {
-  // 指示video资源是否加载完成，加载完成后会获得总时长和视频长宽比等信息
-  bool _videoInit = false;
-  // video控件管理器
-  late VideoPlayerController _controller;
-  // 记录video播放进度
-  Duration _position = Duration(seconds: 0);
-
-  // 记录播放控件ui是否显示(进度条，播放按钮，全屏按钮等等)
-  // // 计时器，用于延迟隐藏控件ui
-  // late Timer _timer;
-  // // 控制是否隐藏控件ui
-  // late bool _hidePlayControl = true;
-  // // 通过透明度动画显示/隐藏控件ui
-  // double _playControlOpacity = 0.0;
-  // // 记录是否全屏
-  // bool get _isFullScreen =>
-  //     MediaQuery.of(context).orientation == Orientation.landscape;
+class _SceHomeContentState extends State<SceHomeContent> {
+  @override
+  Widget build(BuildContext context) {
+    return ContainerDemo();
+  }
+}
+class ContainerDemo extends StatelessWidget {
+  const ContainerDemo({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: widget.width,
-      height: widget.height,
-      color: Colors.black,
-      child: Stack(
+      decoration: BoxDecoration(
+        color: Colors.white
+      ),
+      child: ListView(
         children: [
-          GestureDetector(
-            onTap: () {
-              _togglePlayControl();
-            },
-            child: _videoInit
-                ? Center(
-                    child: AspectRatio(
-                      // 加载url成功时，根据视频比例渲染播放器
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
+          ExpansionTile(
+            textColor: Colors.black,
+            title: Row(
+              children: [
+                Text('注册制创业板适当性评估结果'),
+                Spacer(),
+                Text('匹配', style: TextStyle(color: Colors.blue),)
+              ],
+            ),
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(width: 1.0, color: Colors.black12),
                     ),
-                  )
-                : Center(
-                    child: SizedBox(
-                      // 没加载完成时显示转圈圈loading
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-          ),
-          // _bottomControl, // 控件ui下半部
-          Positioned(
-            left: 0,
-            bottom: 0,
-            child: Offstage(
-              offstage: false,
-              // offstage: _hidePlayControl,
-              child: AnimatedOpacity(
-                opacity: 1,
-                // opacity: _playControlOpacity,
-                duration: Duration(milliseconds: 300),
-                child: Container(
-                  width: widget.width,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      Color.fromRGBO(0, 0, 0, .7),
-                      Color.fromRGBO(0, 0, 0, .1)
-                    ],
-                  )),
-                  child: _videoInit
-                      ? Row(
-                          // 加载完成时才渲染,flex布局
-                          children: [
-                            IconButton(
-                              // 播放按钮
-                              padding: EdgeInsets.zero,
-                              iconSize: 26,
-                              icon: Icon(
-                                // 根据控制器动态变化播放图标还是暂停
-                                _controller.value.isPlaying
-                                    ? Icons.pause
-                                    : Icons.play_arrow,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  // 同样的，点击动态播放或者暂停
-                                  _controller.value.isPlaying
-                                      ? _controller.pause()
-                                      : _controller.play();
-                                  // _startPlayControlTimer(); // 操作控件后，重置延迟隐藏控件的timer
-                                });
-                              },
-                            ),
-                            Flexible(
-                              // 相当于前端的flex: 1
-                              child: VideoProgressIndicator(
-                                // 嘻嘻，这是video_player编写好的进度条，直接用就是了~~
-                                _controller,
-                                allowScrubbing: true, // 允许手势操作进度条
-                                padding: EdgeInsets.all(0),
-                                colors: VideoProgressColors(
-                                  // 配置进度条颜色，也是video_player现成的，直接用
-                                  playedColor:
-                                      Theme.of(context).primaryColor, // 已播放的颜色
-                                  bufferedColor: Color.fromRGBO(
-                                      255, 255, 255, .5), // 缓存中的颜色
-                                  backgroundColor: Color.fromRGBO(
-                                      255, 255, 255, .2), // 为缓存的颜色
-                                ),
-                              ),
-                            ),
-                            Container(
-                              // 播放时间
-                              margin: EdgeInsets.only(left: 10),
-                              child: Text(
-                                // durationToTime是通过Duration转成hh:mm:ss的格式，自己实现。
-                                durationToTime(_position) +
-                                    '/' +
-                                    durationToTime(_controller.value.duration),
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        )
-                      : Container(),
                 ),
               ),
-            ),
-          ),
+
+              Container(
+                child: Row(
+                      children: [
+                        Icon(Icons.add),
+                        Expanded(
+                          child: ListTile(
+                            title: Text('您的风险等级: C4积极型'),
+                            subtitle: Text('创业板的风险等级: 中等偏高风险'),
+                          ),
+                        )
+                      ],
+                    ),
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(width: 1.0, color: Colors.black12),
+                    ),
+                    color: Color.fromRGBO(248, 248, 248, 1),
+                ),
+              ),
+
+              Container(
+                child: Row(
+                      children: [
+                        Icon(Icons.add),
+                        Expanded(
+                          child: ListTile(
+                            title: Text('您的投资期限: 无特别要求'),
+                            subtitle: Text('创业板的投资期限: 无特别要求'),
+                          ),
+                        )
+                      ],
+                    ),
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(width: 1.0, color: Colors.black12),
+                    ),
+                    color: Color.fromRGBO(248, 248, 248, 1),
+                ),
+              ),
+
+              Container(
+                child: Row(
+                      children: [
+                        Icon(Icons.add),
+                        Expanded(
+                          child: ListTile(
+                            title: Text('您的投资品种: 期货, 期权'),
+                            subtitle: Text('创业板的投资期限: 无特别要求'),
+                          ),
+                        )
+                      ],
+                    ),
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(width: 1.0, color: Colors.black12),
+                    ),
+                    color: Color.fromRGBO(248, 248, 248, 1),
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
   }
-
-  @override
-  void initState() {
-    _urlChange(); // 初始化进行一次url加载
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(MyVideo oldWidget) {
-    if (oldWidget.url != widget.url) {
-      _urlChange();
-    }
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    _controller.removeListener(_videoListener);
-    _controller.dispose();
-
-    super.dispose();
-  }
-
-  void _urlChange() {
-    if (widget.url == '') return;
-    // _controller.removeListener(_videoListener);
-    // _controller.dispose();
-
-    setState(() {
-      // _hidePlayControl = true;
-      _videoInit = false;
-      _position = Duration(seconds: 0);
-    });
-
-    // 加载network的url
-    _controller = VideoPlayerController.network(widget.url)
-      ..initialize().then((_) {
-        // 加载资源完成时，监听播放进度，并且标记_videoInit=true加载完成
-        _controller.addListener(_videoListener);
-        setState(() {
-          _videoInit = true;
-        });
-      });
-  }
-
-  void _videoListener() async {
-    Duration? res = await _controller.position;
-    if (res! >= _controller.value.duration) {
-      _controller.pause();
-      _controller.seekTo(Duration(seconds: 0));
-    }
-
-    setState(() {
-      _position = res;
-    });
-  }
-
-  void _togglePlayControl() {
-    setState(() {
-      if (_controller.value.isPlaying) {
-        _controller.pause();
-      } else {
-        _controller.play();
-      }
-    });
-  }
-
-  // void _togglePlayControl() {
-  //   setState(() {
-  //     if (_hidePlayControl) {
-  //       // 如果隐藏则显示
-  //       _hidePlayControl = false;
-  //       _playControlOpacity = 1;
-  //       // _startPlayControlTimer(); // 开始计时器，计时后隐藏
-  //     } else {
-  //       // 如果显示就隐藏
-  //       // if (_timer != null) _timer.cancel(); // 有计时器先移除计时器
-  //       // _timer.cancel();
-  //       _playControlOpacity = 0;
-  //       Future.delayed(Duration(milliseconds: 300)).whenComplete(() {
-  //         _hidePlayControl = true; // 延迟300ms(透明度动画结束)后，隐藏
-  //       });
-  //     }
-  //   });
-  // }
-
-  // void _startPlayControlTimer() {
-  //   // 计时器，用法和前端js的大同小异
-  //   // if (_timer != null) _timer.cancel();
-  //   // _timer.cancel();
-  //   _timer = Timer(Duration(seconds: 10), () {
-  //     // 延迟3s后隐藏
-  //     setState(() {
-  //       _playControlOpacity = 0;
-  //       Future.delayed(Duration(milliseconds: 300)).whenComplete(() {
-  //         _hidePlayControl = true;
-  //       });
-  //     });
-  //   });
-  // }
-
-  String durationToTime(duration) {
-    return duration.toString().substring(0, 7);
-  }
 }
+
